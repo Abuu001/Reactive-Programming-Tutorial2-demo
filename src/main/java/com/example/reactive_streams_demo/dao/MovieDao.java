@@ -53,4 +53,12 @@ public class MovieDao {
                   System.out.println("Total Execution Time taken is: "+ (endTime - startTime) + " (sec)");
                 });*/
     }
+
+    public Flux<Movie> getMoviesList(){
+        return Flux.range(1,NO_OF_MOVIES_TO_RETRIEVE)
+                .delayElements(Duration.ofMillis(1000))
+                .doOnNext(i -> System.out.println("Processing count in stream flow : " + i))
+                .map(i -> new Movie(i,"Movie Name : "+i, movieUtils.calculatePrice(i),movieUtils.calculateRatings(i)) );
+    }
+
 }
